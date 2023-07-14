@@ -41,23 +41,37 @@ for (int i =  0; i < products.Count; i++)
   Console.WriteLine($"{i + 1}. {products[i].Name}");
 }
 
-int response = int.Parse(Console.ReadLine().Trim());
+// int response = int.Parse(Console.ReadLine().Trim());
 
-Product chosenProduct = products[response -1];
+// Product chosenProduct = products[response -1];
 
-while (response > products.Count || response < 1)
+// while (response > products.Count || response < 1)
+// {
+//   Console.WriteLine("Choose an existing product number");
+//   response = int.Parse(Console.ReadLine().Trim());
+// }
+
+Product chosenProduct = null;
+
+while (chosenProduct == null)
 {
-  Console.WriteLine("Choose a number between 1 and 5");
-  response = int.Parse(Console.ReadLine().Trim());
+  Console.WriteLine("Please enter a product number: ");
+  try{
+    int response = int.Parse(Console.ReadLine().Trim());
+    chosenProduct = products[response -1];
+  }
+  catch (FormatException)
+  {
+    Console.WriteLine("Integers Only");
+  }
+  catch (ArgumentOutOfRangeException)
+  {
+    Console.WriteLine("Choose an existing item");
+  }
+  catch (Exception ex)
+  {
+    Console.WriteLine(ex);
+    Console.WriteLine("Do better");
+  }
 }
 Console.WriteLine($"You chose: {chosenProduct.Name}, which costs {chosenProduct.Price} dollars and is {(chosenProduct.Sold ? "" : "not ")}sold.");
-
-public class Product
-{
-  public string Name { get; set; }
-  public decimal Price { get; set; }
-  public bool Sold { get; set; }
-  public DateTime StockDate { get; set; }
-  public int ManufactureYear { get; set; }
-  public double Condition { get; set; }
-}
